@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | WorkFlowHub{% endblock %}
+
+{% block content %}
+<div class="hero mb-4">
+    <div>
+        <p class="eyebrow">COMPANY OPERATIONS</p>
+        <h1>Good to see you, {{ user.username|title }} 👋</h1>
+        <p>Track people, projects and productivity from one workspace.</p>
+    </div>
+    <a class="btn btn-light" href="{% url 'task_create' %}">
+        <i class="bi bi-plus-lg"></i> Create Task
+    </a>
+</div>
+
+<!-- Stat Cards -->
+<div class="row g-3">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon"><i class="bi bi-people"></i></div>
+            <small>EMPLOYEES</small>
+            <h2>{{ employee_count }}</h2>
+            <span>Active records</span>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon"><i class="bi bi-folder2"></i></div>
+            <small>PROJECTS</small>
+            <h2>{{ project_count }}</h2>
+            <span>Company projects</span>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon"><i class="bi bi-check2-square"></i></div>
+            <small>TOTAL TASKS</small>
+            <h2>{{ task_count }}</h2>
+            <span>Tracked tasks</span>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon"><i class="bi bi-hourglass-split"></i></div>
+            <small>PENDING TASKS</small>
+            <h2>{{ pending_tasks }}</h2>
+            <span>Need attention</span>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Tasks Section -->
+<div class="row g-4 mt-1">
+    <div class="col-lg-7">
+        <div class="panel">
+            <div class="panel-head">
+                <h5>Recent Tasks</h5>
+                <a href="{% url 'task_list' %}">View all</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th>Task</th>
+                            <th>Project</th>
+                            <th>Assignee</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for t in recent_tasks %}
+                        <tr>
+                            <td>
+                                <b>{{ t.title }}</b><br>
+                                <small class="text-muted">{{ t.priority }}</small>
+                            </td>
+                            <td>{{ t.project.name }}</td>
+                            <td>{{ t.assigned_to.name|default:"Unassigned" }}</td>
+                            <td><span class="badge badge-soft">{{ t.status }}</span></td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center py-4">No tasks yet.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,3 @@
+{% extends "base.html" %}{% block page_name %}Departments{% endblock %}{% block content %}
+<div class="page-title"><div><h2>Departments</h2><p>Organize the company structure.</p></div><a class="btn btn-primary" href="{% url 'department_create' %}">Add Department</a></div>
+<div class="row g-3">{% for d in departments %}<div class="col-md-4"><div class="panel"><h5>{{ d.name }}</h5><p class="text-muted">{{ d.description|default:"No description." }}</p><a href="{% url 'department_update' d.pk %}" class="btn btn-sm btn-light">Edit</a> <a href="{% url 'department_delete' d.pk %}" class="btn btn-sm btn-outline-danger">Delete</a></div></div>{% empty %}<div class="col-12"><div class="panel text-center">No departments yet.</div></div>{% endfor %}</div>{% endblock %}
